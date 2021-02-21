@@ -1,14 +1,14 @@
-FROM ubuntu:12.04
+FROM i386/ubuntu:12.04
 SHELL ["/bin/bash", "-i", "-c"]
 
-ARG PYTHON_VERSION=2.7.17
-ARG PYINSTALLER_VERSION=3.6
+ARG PYTHON_VERSION=3.8.3
+ARG PYINSTALLER_VERSION=4.2
 
 ENV PYPI_URL=https://pypi.python.org/
 ENV PYPI_INDEX_URL=https://pypi.python.org/simple
 ENV PYENV_VERSION=${PYTHON_VERSION}
 
-COPY entrypoint-linux.sh /entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
 
 RUN \
     set -x \
@@ -40,7 +40,7 @@ RUN \
     && wget https://www.openssl.org/source/openssl-1.0.2u.tar.gz \
     && tar -xzvf openssl-1.0.2u.tar.gz \
     && cd openssl-1.0.2u \
-    && ./config --prefix=$HOME/openssl --openssldir=$HOME/openssl shared zlib \
+    && ./Configure linux-generic32 --prefix=$HOME/openssl --openssldir=$HOME/openssl shared zlib \
     && make \
     && make install \
     # install pyenv
